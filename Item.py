@@ -141,6 +141,11 @@ class Item(object):
         return True
 
 
+    @property
+    def bossreward(self):
+        return self.type == 'DungeonReward'
+
+
     def __str__(self):
         return str(self.__unicode__())
 

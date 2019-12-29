@@ -557,7 +557,7 @@ def update_required_items(spoiler):
     # item_locations: only the ones that should appear as "required"/WotH
     all_locations = [location for world in worlds for location in world.get_filled_locations()]
     # Set to test inclusion against
-    item_locations = {location for location in all_locations if location.item.majoritem and not location.locked and location.item.name != 'Triforce Piece'}
+    item_locations = {location for location in all_locations if (location.item.majoritem or location.item.key or location.item.bossreward) and not location.locked and location.item.name != 'Triforce Piece'}
 
     # if the playthrough was generated, filter the list of locations to the
     # locations in the playthrough. The required locations is a subset of these
@@ -591,9 +591,12 @@ def update_required_items(spoiler):
 
     # Filter the required location to only include location in the world
     required_locations_dict = {}
+    all_required_locations_dict = {}
     for world in worlds:
-        required_locations_dict[world.id] = list(filter(lambda location: location.world.id == world.id, required_locations))
+        required_locations_dict[world.id] = list(filter(lambda location: location.world.id == world.id and location.item.majoritem, required_locations))
+        all_required_locations_dict[world.id] = list(filter(lambda location: location.world.id == world.id, required_locations))
     spoiler.required_locations = required_locations_dict
+    spoiler.all_required_locations = all_required_locations_dict
 
 
 def create_playthrough(spoiler):
