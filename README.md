@@ -2,6 +2,16 @@
 
 This is a randomizer for _The Legend of Zelda: Ocarina of Time_ for the Nintendo 64.
 
+**WARNING**: This is not an official version of the randomizer. This is a not-always-kept-up-to-date
+fork that includes a stats generator in `stats.py`; only issues and questions *relating to this stats script*
+should be posted here, and please refrain from asking questions and reporting issues related to this stats script
+in the official support channels on Discord. Please contact me via the [issues](https://github.com/Zannick/OoT-Randomizer/issues) link in this fork.
+
+**NOTE**: The `stats.py` file is insufficient to generate stats, as I've modified a part of the Spoiler to
+output better data about required locations. Your best bet for fooling around with it is to clone or merge into your own fork.
+
+## Main
+
 * [Installation](#installation)
 * [General Description](#general-description)
   * [Getting Stuck](#getting-stuck)
