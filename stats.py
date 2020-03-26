@@ -12,7 +12,6 @@ import sys
 import time
 
 from World import World
-from State import State
 from Spoiler import Spoiler
 from DungeonList import create_dungeons
 from Fill import distribute_items_restrictive
@@ -144,7 +143,7 @@ def make_one(base_settings, window=dummy_window(), out=False):
 
 
     if settings.hints == 'none':
-        State.update_required_items(spoiler)
+        Main.update_required_items(spoiler)
         for world in worlds:
             world.update_useless_areas(spoiler)
             #buildGossipHints(spoiler, world)
@@ -178,7 +177,7 @@ with open('tests/entrance3.sav') as f:
 with open('data/presets_default.json') as f:
     presets = json.load(f)
 # presets[preset_name]
-s3 = presets['S3 Tournament']
+easy = presets['Easy Mode']
 
 def merge_with(d, jsonfile):
     with open(jsonfile) as f:
@@ -211,7 +210,7 @@ def merge_all(dirname):
     with open(os.path.join(dirname, 'merged.json'), 'w') as f:
         json.dump(obj, f)
 
-def make_many(base_settings=s3, trials=1000):
+def make_many(base_settings=easy, trials=1000):
     all_items = set()
     # item -> num times required
     item_reqs = defaultdict(int)
@@ -502,6 +501,31 @@ def m(settings):
     else:
         main(settings)
 
+
+def strip(func):
+    fl, fn, fc = func
+    if fl.startswith('/dev/shm') or 'OoTRandomizer' in fl:
+        return os.path.basename(fl), -1, fc
+    return func
+
+
+def pdiff(p_, q_):
+    """ Provides a diff from p_ -> q_ (i.e. q_ - p_). """
+    ps = pstats.Stats()
+    qs = pstats.Stats()
+    for func, stats in p_.stats.items():
+        a, b, c, d, cf = stats
+        ncf = {strip(k): (-x, -y, -z, -w) for k, (x, y, z, w) in cf.items()}
+        ps.stats[strip(func)] = (-a, -b, -c, -d, ncf)
+    for func, stats in q_.stats.items():
+        a, b, c, d, cf = stats
+        ncf = {strip(k): s for k, s in cf.items()}
+        qs.stats[strip(func)] = (a, b, c, d, ncf)
+
+    ps.get_top_level_stats()
+    qs.get_top_level_stats()
+    return ps.add(qs)
+
 ###
 # remark out the below and run with python -i to use the REPL.
 #
@@ -509,11 +533,15 @@ def m(settings):
 # or manually run merge_all to get different runs combined together.
 ###
 
-make_many(base_settings=s3,trials=250)
+#make_many(base_settings=easy,trials=20)
 #main(Settings(multiworld))
-#cProfile.run('m(Settings(multiworld))', 'oot3profile')
+#cProfile.run('m(Settings(multiworld))', 'oot2profile')
 #cProfile.run('cosmetic_patch(Settings(cosmetics))', 'oot3profile')
 #p = pstats.Stats('oot3profile')
 #q = pstats.Stats('oot2profile')
 #w = main(Settings(accessible))
 #main(Settings(entrances))
+p = pstats.Stats('base.prof')
+q = pstats.Stats('new_.prof')
+ps = pdiff(p,q)
+qs = pdiff(q,p)
