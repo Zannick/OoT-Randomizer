@@ -1,0 +1,8 @@
+{
+"seed": "TESTTESTTEST",
+"enable_distribution_file": true,
+"compress_rom": "None",
+"distribution_file": "tests/plando/house-cow.json",
+"shuffle_cows": true,
+"entrance_shuffle": "simple-indoors"
+}

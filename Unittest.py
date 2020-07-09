@@ -7,10 +7,11 @@ import os
 import random
 import unittest
 
+from Hints import get_hint_area
 from ItemList import item_table
 from ItemPool import remove_junk_items, item_groups
 from LocationList import location_groups
-from Main import main
+from Main import main, resolve_settings, build_world_graphs
 from Settings import Settings
 
 test_dir = os.path.join(os.path.dirname(__file__), 'tests')
@@ -119,6 +120,15 @@ def get_actual_pool(spoiler):
         except KeyError:
             actual_pool[test_item] = 1
     return actual_pool
+
+
+class TestGraphGeneration(unittest.TestCase):
+    def test_impas_cow_hint(self):
+        settings = load_settings('house-cow.sav', seed='TESTTESTTEST')
+        _ = resolve_settings(settings)
+        world = build_world_graphs(settings)[0]
+        self.assertEqual('Kak Impas House Back', world.get_region('Kak Impas House Near Cow').hint_region)
+        self.assertEqual("Zora's Domain", get_hint_area(world.get_location('Kak Impas House Cow')))
 
 
 class TestPlandomizer(unittest.TestCase):
