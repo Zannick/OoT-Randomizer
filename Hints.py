@@ -265,15 +265,16 @@ def colorText(gossip_text):
 
 
 def get_hint_area(spot):
-    if spot.parent_region.dungeon:
-        return spot.parent_region.dungeon.hint
-    elif spot.parent_region.hint:
-        return spot.parent_region.hint
+    region = spot.parent_region.get_hint_region()
+    if region.dungeon:
+        return region.dungeon.hint
+    elif region.hint:
+        return region.hint
     #Breadth first search for connected regions with a max depth of 2
-    for entrance in spot.parent_region.entrances:
+    for entrance in region.entrances:
         if entrance.parent_region.hint:
             return entrance.parent_region.hint
-    for entrance in spot.parent_region.entrances:
+    for entrance in region.entrances:
         for entrance2 in entrance.parent_region.entrances:
             if entrance2.parent_region.hint:
                 return entrance2.parent_region.hint

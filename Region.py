@@ -35,6 +35,7 @@ class Region(object):
         self.dungeon = None
         self.world = None
         self.hint = None
+        self.hint_region = None
         self.price = None
         self.world = None
         self.time_passes = False
@@ -47,6 +48,7 @@ class Region(object):
         new_region.world = new_world
         new_region.price = self.price
         new_region.hint = self.hint
+        new_region.hint_region = self.hint_region
         new_region.time_passes = self.time_passes
         new_region.provides_time = self.provides_time
         new_region.scene = self.scene
@@ -77,6 +79,13 @@ class Region(object):
             return item.world.id == self.world.id
 
         return True
+
+
+    def get_hint_region(self):
+        """Returns the region we consider this region "as" for hinting purposes."""
+        if self.hint_region:
+            return self.world.get_region(self.hint_region)
+        return self
 
 
     def __str__(self):

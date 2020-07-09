@@ -230,6 +230,8 @@ class World(object):
                 new_region.scene = region['scene']
             if 'hint' in region:
                 new_region.hint = region['hint']
+            if 'hint_region' in region:
+                new_region.hint_region = region['hint_region']
             if 'dungeon' in region:
                 new_region.dungeon = region['dungeon']
             if 'time_passes' in region:

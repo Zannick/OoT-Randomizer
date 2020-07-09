@@ -936,12 +936,9 @@
     },
     {
         "region_name": "Kak Impas House Near Cow",
+        "hint_region": "Kak Impas House Back",
         "locations": {
             "Kak Impas House Cow": "can_play(Eponas_Song)"
-        },
-        "exits": {
-            #For hints purposes
-            "Kak Impas House Back": "False"
         }
     },
     {

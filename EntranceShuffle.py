@@ -631,7 +631,6 @@ def validate_worlds(worlds, entrance_placed, locations_to_ensure_reachable, item
             if world.shuffle_cows:
                 impas_front_entrance = get_entrance_replacing(world.get_region('Kak Impas House'), 'Kakariko Village -> Kak Impas House')
                 impas_back_entrance = get_entrance_replacing(world.get_region('Kak Impas House Back'), 'Kak Impas Ledge -> Kak Impas House Back')
-                check_same_hint_region(impas_front_entrance, impas_back_entrance)
 
     return
 
